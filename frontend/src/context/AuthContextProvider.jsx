@@ -18,8 +18,6 @@ const AuthContextProvider = ({ children }) => {
         const res = await api.get("/auth/me");
         if (isMounted) {
           setUser(res.data);
-          // save userId for sockets or other usage
-          localStorage.setItem("userId", res.data._id);
         }
       } catch (err) {
   // Ignore 401 (unauthorized) since user may not be logged in yet
@@ -27,7 +25,6 @@ const AuthContextProvider = ({ children }) => {
     console.error("Failed to fetch user:", err);
   }
   setUser(null);
-  localStorage.removeItem("userId");
 }finally {
         if (isMounted) setLoading(false);
       }
@@ -39,10 +36,9 @@ const AuthContextProvider = ({ children }) => {
   }, []);
 
   // ==================== Login ====================
-  // Backend sets httpOnly cookie, so no token needed in localStorage
+  // Backend sets httpOnly cookie — user lives only in React state (see fetchMe).
   const login = (userData) => {
     setUser(userData);
-    localStorage.setItem("userId", userData._id); // optional for socket usage
   };
 
   // ==================== Logout ====================
@@ -53,7 +49,6 @@ const AuthContextProvider = ({ children }) => {
       console.error("Logout failed:", err);
     } finally {
       setUser(null);
-      localStorage.removeItem("userId");
       navigate("/login", { replace: true });
     }
   };

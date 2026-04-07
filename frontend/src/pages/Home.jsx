@@ -1,11 +1,12 @@
 import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Rnd } from "react-rnd";
 import api from "../api/axios";
 import ChatWindow from "../components/chat/ChatWindow";
 import FriendCard from "../components/users/FriendCard";
 import FriendRequestCard from "../components/users/FriendRequestCard";
 import SuggestedUserCard from "../components/users/SuggestedUserCard";
+import useAuth from "../hooks/useAuth";
 import useFriends from "../hooks/useFriends";
 import useSocket from "../hooks/useSocket";
 import useUsers from "../hooks/useUsers";
@@ -15,7 +16,9 @@ const techStackOptions = ["MERN", "MEAN", "Spring Boot", "Django", "Next.js"];
 const rolesOptions = ["Frontend", "Backend", "Fullstack", "DevOps", "UI/UX"];
 
 function Home() {
-  const [currentUserId, setCurrentUserId] = useState(null);
+  const { user } = useAuth();
+  const socketUserId = user?._id != null ? String(user._id) : null;
+
   const [selectedChat, setSelectedChat] = useState(null);
 
   const [filterLanguage, setFilterLanguage] = useState("");
@@ -60,35 +63,9 @@ function Home() {
     10
   );
 
-  /* ===============================
-     CURRENT USER LOAD
-  =============================== */
-  useEffect(() => {
-    let isMounted = true;
+  /* Current user comes from AuthContext (cookie + /auth/me). No localStorage userId — avoids stale id. */
 
-    async function fetchUser() {
-      const storedId = localStorage.getItem("userId");
-
-      if (storedId && isMounted) {
-        setCurrentUserId(storedId);
-      } else {
-        try {
-          const res = await api.get("/auth/me");
-          if (res.data?._id && isMounted) {
-            localStorage.setItem("userId", res.data._id);
-            setCurrentUserId(res.data._id);
-          }
-        } catch (err) {
-          console.warn("Failed to fetch user", err);
-        }
-      }
-    }
-
-    fetchUser();
-    return () => (isMounted = false);
-  }, []);
-
-  const { socket, onlineUsers } = useSocket(currentUserId);
+  const { socket, onlineUsers } = useSocket(socketUserId);
 
   /* ===============================
      FRIEND STATUS
@@ -259,7 +236,7 @@ function Home() {
       </div>
 
       {/* FLOATING CHAT */}
-      {selectedChat && currentUserId && (
+      {selectedChat && user && (
         <Rnd
           default={{
             x: window.innerWidth - 320,
@@ -275,7 +252,7 @@ function Home() {
           <div className="relative w-full h-full flex flex-col">
             <ChatWindow
               friend={selectedChat}
-              currentUser={{ _id: currentUserId }}
+              currentUser={user}
               socket={socket}
             />
             <button

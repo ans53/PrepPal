@@ -75,19 +75,8 @@ export const useSocket = (userId) => {
     };
   }, [socket]);
 
-  // ==================== Typing Helpers ====================
-  const sendTyping = (receiverId) => {
-    if (!socket?.connected) return;
-    socket.emit("typing", { userId: receiverId });
-  };
-
-  const stopTyping = (receiverId) => {
-    if (!socket?.connected) return;
-    socket.emit("stopTyping", { userId: receiverId });
-  };
-
   // ⭐ onlineUsers added to return
-  return { socket, connected, onlineUsers, sendTyping, stopTyping };
+  return { socket, connected, onlineUsers };
 };
 
 export default useSocket;

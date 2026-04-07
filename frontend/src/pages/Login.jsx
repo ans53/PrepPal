@@ -11,7 +11,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { setUser } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -22,14 +22,7 @@ const handleSubmit = async (e) => {
   try {
     const res = await api.post("/auth/login", { email, password });
 
-    // Save user in context
-    setUser(res.data);
-
-    // Save userId for sockets
-    localStorage.setItem("userId", res.data._id);
-
-    // Save token for API requests
-    localStorage.setItem("token", res.data.token); // <-- important
+    login(res.data);
 
     navigate("/");
   } catch (err) {
