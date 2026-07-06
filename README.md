@@ -1,9 +1,14 @@
 <h1 align="center">🚀 PrepPal</h1>
 <h3 align="center">Real-Time Study Collaboration Platform</h3>
-
+<br/>
+<p>While numerous online learning resources—such as coding platforms, video tutorials, discussion forums, and digital documentation—are readily available, many learners continue to prepare in isolation. This lack of peer interaction often leads to reduced motivation, limited exposure to diverse problem-solving strategies, and insufficient practice of real-world interview scenarios.<br/>
+PrepPal is conceived as a real-time, community-driven web platform designed to address these challenges and support students as well as early-career professionals in their journey toward securing technical roles. The platform aims to transform the traditional, solitary approach to interview preparation into a collaborative and engaging learning experience. By fostering a supportive community environment, PrepPal enables users to connect with like-minded peers based on their technology stacks, experience levels, skill sets, and career aspirations. This targeted networking facilitates meaningful interactions, encourages knowledge exchange, and promotes structured peer-to-peer learning.
+<p>
+  <br/>
 <p align="center">
 A full-stack real-time chat and video calling platform built for students.
 </p>
+
 
 <hr/>
 
