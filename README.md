@@ -12,7 +12,7 @@ A full-stack real-time chat and video calling platform built for students.
 
 <hr/>
 
-<h2>✨ Features</h2>
+<h2>Features</h2>
 <ul>
   <li>🔐 JWT Authentication (Login / Register)</li>
   <li>👥 Friend Requests & Suggestions</li>
